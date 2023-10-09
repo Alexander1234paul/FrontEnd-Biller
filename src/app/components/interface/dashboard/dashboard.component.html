@@ -1,0 +1,108 @@
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <a href="#" class="logo">
+    <i class="bx bxs-dashboard"></i>
+    <div class="logo-name"><span>Logo</span></div>
+  </a>
+  <i class="bx bx-menu"></i>
+  <ul class="side-menu">
+    <li class="active">
+      <a [routerLink]="['home']"><i class="bx bxs-dashboard"></i>Inicio</a>
+    </li>
+    <li>
+      <a><i class="bx bx-store-alt"></i>Administración</a>
+    </li>
+    <li>
+      <a [routerLink]="['sales']"><i class="bx bx-analyse"></i>Ventas</a>
+    </li>
+    <li>
+      <a [routerLink]="['mainShopping']"
+        ><i class="bx bx-message-square-dots"></i>Compras</a
+      >
+    </li>
+    <li>
+      <a><i class="bx bx-store-alt"></i>Inventario</a>
+      <ul>
+        <li>
+          <a [routerLink]="['categories']"
+            ><i class="bx bx-store-alt"></i> Categorías</a
+          >
+        </li>
+        <li>
+          <a [routerLink]="['products']">
+            <i class="bx bx-store-alt"></i>Productos</a
+          >
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a [routerLink]="['mainClients']"><i class="bx bx-group"></i>Clientes</a>
+    </li>
+    <li>
+      <a [routerLink]="['mainSuppliers']"
+        ><i class="bx bx-group"></i>Proveedores</a
+      >
+    </li>
+
+    <li>
+      <a><i class="bx bx-user"></i>Empleados</a>
+    </li>
+    <li>
+      <a><i class="bx bx-cog"></i>Configuraciones</a>
+    </li>
+  </ul>
+  <ul class="side-menu">
+    <li>
+      <a href="#" class="logout">
+        <i class="bx bx-log-out-circle"></i>
+        Logout
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <!-- NAVBAR -->
+  <nav>
+    <form action="#">
+      <div class="form-input"></div>
+    </form>
+    <input type="checkbox" id="theme-toggle" hidden />
+    <label for="theme-toggle" class="theme-toggle"></label>
+    <a href="#" class="notif">
+      <i class="bx bx-bell"></i>
+      <span class="count">12</span>
+    </a>
+    <a href="#" class="profile">
+      <img
+        src="https://i.pinimg.com/originals/af/07/4c/af074c152fe6b09e8afa9875f06d98b5.png"
+      />
+    </a>
+    <span>{{ user }}</span>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <div class="header">
+      <div class="left">
+        <h1>Panel Administrativo</h1>
+        <ul class="breadcrumb">
+          <li><a href="#"> Inicio </a></li>
+          /
+          <li><a href="#" class="active">Bienvenido</a></li>
+        </ul>
+      </div>
+      <a href="#" class="report">
+        <i class="bx bx-calendar"></i>
+        <span>{{ today }}</span>
+      </a>
+    </div>
+
+    <div class="bottom-data">
+      <div class="orders">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </main>
+</div>

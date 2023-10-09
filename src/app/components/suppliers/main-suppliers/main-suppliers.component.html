@@ -1,0 +1,89 @@
+<br />
+<button class="btn btn-primary" [routerLink]="['suppliers']">
+  Nuevo Proveedor
+</button>
+<br /><br />
+<router-outlet></router-outlet>
+
+<input
+  type="text"
+  class="form-control bg-light small"
+  placeholder="Buscar..."
+  aria-label="Search"
+  (keyup)="filtrarSupplier($event)"
+  aria-describedby="basic-addon2"
+/>
+<br />
+<br />
+<div class="container">
+  <div class="col-md-12">
+    <p-table
+      #dt
+      [rows]="5"
+      [value]="listSuppliers"
+      [paginator]="true"
+      responsiveLayout="scroll"
+      [rowHover]="true"
+      currentPageReportTemplate="Mostrando elementos {first} hasta {last} de {totalRecords} entradas totales"
+      [showCurrentPageReport]="true"
+      [globalFilterFields]="['rol_id']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between"></div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="rol_id">
+            RUC<p-sortIcon field="rol_id"></p-sortIcon>
+            <div class="flex justify-content-center align-items-center">
+              <p-columnFilter
+                type="text"
+                field="rol_id"
+                display="Id"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th>
+            Razon social
+            <div class="flex justify-content-center align-items-center">
+              <p-columnFilter
+                type="text"
+                field="rol_descripcion"
+                display="Descripción"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+
+          <th>Correo Electrónico</th>
+          <th>Opciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-varSuppliers>
+        <tr>
+          <td>{{ varSuppliers.ruc }}</td>
+          <td>{{ varSuppliers.razon }}</td>
+          <td>{{ varSuppliers.direccion }}</td>
+          <td>{{ varSuppliers.telefono }}</td>
+          <td>{{ varSuppliers.email }}</td>
+          <td>
+            <button class="btn btn-primary">Editar</button>
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="deleteSupplier(varSuppliers.id_proveedor)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between"></div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,0 +1,241 @@
+<form [formGroup]="formProduct">
+  <div class="contenedor-principal">
+    <div class="columna-izquierda">
+      <div class="elemento">
+        <!-- <label for="categoria">Selecciona una categoría:</label>
+        <select formControlName="id_categoria" id="categorias">
+          <option
+            *ngFor="let categoria of listCategories"
+            [value]="categoria.id_categoria"
+          >
+            {{ categoria.descripcion }}
+          </option>
+        </select>  -->
+        <p-dropdown
+          [options]="listCategories"
+          [(ngModel)]="selectedCategory"
+          optionLabel="descripcion"
+          optionValue="id_categoria"
+          formControlName="id_categoria"
+          placeholder="Seleccione una categoría"
+          [filter]="true"
+          (input)="onCategorySearch($event)"
+        ></p-dropdown>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#myModal"
+        >
+          <i class="bx bx-plus"></i>
+        </button>
+      </div>
+      <div class="elemento">
+        <label for="nombre">Nombre:</label>
+        <input
+          type="text"
+          formControlName="nombre"
+          placeholder="Ingrese el nombre del producto"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="columna-derecha">
+      <div class="elemento">
+        <label for="codigo">Código:</label>
+        <input
+          type="text"
+          formControlName="codigo"
+          placeholder="Ingrese el código del producto"
+          class="form-control"
+        />
+        <!-- <input
+          type="text"
+          formControlName="codigo"
+          (keyup)="filterProducts($event)"
+          placeholder="Ingrese el código del producto"
+          class="form-control"
+        /> -->
+      </div>
+      <div class="elemento">
+        <label for="barras">Código de Barras:</label>
+        <input
+          type="text"
+          formControlName="barras"
+          placeholder="Ingrese el código de barras"
+          class="form-control"
+        />
+      </div>
+      <div class="elemento">
+        <label for="descripcion">Descripción:</label>
+        <input
+          type="text"
+          formControlName="descripcion"
+          placeholder="Ingrese la descripción del producto"
+          class="form-control"
+        />
+      </div>
+      <div class="elemento">
+        <label for="precio1">Precio 1:</label>
+        <input
+          type="number"
+          formControlName="precio1"
+          placeholder="Ingrese la descripción del producto"
+          class="form-control"
+        />
+      </div>
+      <div class="elemento">
+        <label for="precio2">Precio 2:</label>
+        <input
+          type="number"
+          formControlName="precio2"
+          placeholder="Ingrese la descripción del producto"
+          class="form-control"
+        />
+      </div>
+      <div class="elemento">
+        <label for="precio3">Precio 3:</label>
+        <input
+          type="number"
+          formControlName="precio3"
+          placeholder="Ingrese la descripción del producto"
+          class="form-control"
+        />
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <input
+            [checked]="mostrarDiv"
+            (change)="mostrarDiv = !mostrarDiv"
+            type="checkbox"
+            name="unidadMedida"
+            id="unidadMedida"
+          />
+        </div>
+        <div class="col-md-11">
+          <label for="unidadMedida" style="font-size: 12px"
+            >Agregar unidades de medida a este producto (Kilos, gramos, litros,
+            etc)</label
+          >
+        </div>
+      </div>
+
+      <div class="row p-3" *ngIf="mostrarDiv">
+        <div class="col-md-6">
+          <div class="row p-1">
+            <label for="">Unidad de compra</label>
+          </div>
+          <div class="row p-1 d-flex justify-content-center">
+            <p-dropdown
+              [options]="listUnitsMeasure"
+              [(ngModel)]="selectedUnitMeasurement"
+              formControlName="id_unidad_medida"
+              optionLabel="descripcion"
+              optionValue="id_unidad_medida"
+              placeholder="Selecciona unidad de compra"
+              [filter]="true"
+              (input)="onSupplierEvent($event)"
+              (onChange)="getConversions($event)"
+              [style]="{
+                width: '300px',
+                height: '35px',
+                'background-color': '#ffffff',
+                transform: 'scale(0.8)'
+              }"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row p-1">
+            <label for="">Unidad de venta</label>
+          </div>
+          <div class="row p-1">
+            <p-dropdown
+              [options]="listUnitConversions"
+              [(ngModel)]="selectedConversion"
+              formControlName="id_conversion"
+              optionValue="id_conversion"
+              optionLabel="descripcion"
+              placeholder="Selecciona unidad de venta"
+              [filter]="true"
+              (input)="onSupplierEvent($event)"
+              class="dropdown-custom"
+              [style]="{
+                width: '300px',
+                height: '35px',
+                'background-color': '#ffffff',
+                transform: 'scale(0.8)'
+              }"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-dismiss="modal"
+        (click)="registerProduct(formProduct.value)"
+      >
+        Registrar Producto
+      </button>
+    </div>
+  </div>
+</form>
+
+<!-- The Modal of  new supplier -->
+
+<!-- 
+++++++++++++ MODAL +++++++++++++
+++++++++++++++++++++++++++++++++ -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="formCategory">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Nueva Categoría</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="contenedor-principal">
+            <div class="columna-izquierda">
+              <div class="elemento">
+                <label for="descripcion">Nombre Categoría:</label>
+                <input
+                  type="text"
+                  formControlName="descripcion"
+                  placeholder="Ingrese el nombre de la categoría"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            data-bs-dismiss="modal"
+            (click)="registerCategory(formCategory.value)"
+          >
+            Crear Categoría
+          </button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

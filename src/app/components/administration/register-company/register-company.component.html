@@ -1,0 +1,45 @@
+<main>
+
+    <div>
+        <div>
+            <h4>Datos Administrador</h4>
+            <label for="ci_ruc">Cédula/Ruc</label>
+            <input type="text" name="" id="" [(ngModel)]="person.ci_ruc">
+            <label for="">Nombres</label>
+            <input type="text" name="" id="" [(ngModel)]="person.nombres">
+            <label for="">Apellidos</label>
+            <input type="text" name="" id="" [(ngModel)]="person.apellidos">
+            <label for="">Teléfono</label>
+            <input type="text" name="" id="" [(ngModel)]="person.telefono">
+            <label for="">Email</label>
+            <input type="text" name="" id="" [(ngModel)]="person.email">
+            <label for="">Dirección</label>
+            <input type="text" name="" id="" [(ngModel)]="person.direccion">
+        </div>
+        <div>
+            <h4>Datos Empresa</h4>
+            <label for="">Ruc</label>
+            <input type="text" name="" id="" [(ngModel)]="company.ruc">
+            <label for="">Nombre/Razón Social</label>
+            <input type="text" name="" id="" [(ngModel)]="company.razon">
+            <label for="">Eslogan</label>
+            <input type="text" name="" id="" [(ngModel)]="company.slogan">
+            <label for="">Logo</label>
+            <input type="text" name="" id="" [(ngModel)]="company.logo">
+            <label for="">Dirección</label>
+            <input type="text" name="" id="" [(ngModel)]="store.direccion">
+            <label for="">Teléfono</label>
+            <input type="text" name="" id="" [(ngModel)]="store.telefono">
+        </div>
+        <div>
+            <h4>Datos Login</h4>
+            <label for="">Crear Usuario</label>
+            <input type="text" name="" id="" [(ngModel)]="user.usuario">
+            <label for="">Contraseña</label>
+            <input type="text" name="" id="" [(ngModel)]="user.password">
+        </div>
+        <div>
+            <button (click)="postCreateCompany()">Registrar</button>
+        </div>
+    </div>
+</main>

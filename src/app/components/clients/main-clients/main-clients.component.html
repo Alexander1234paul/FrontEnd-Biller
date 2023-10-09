@@ -1,0 +1,261 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="row p-4">
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control bg-light small"
+          placeholder="Buscar..."
+          aria-label="Search"
+          (keyup)="filtrarclients($event)"
+          aria-describedby="basic-addon2"
+        />
+      </div>
+      <div class="col-md-6">
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#createClientModal"
+        >
+          Nuevo Cliente
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <p-table
+      #dt
+      [rows]="5"
+      [value]="listClients"
+      [paginator]="true"
+      responsiveLayout="scroll"
+      [rowHover]="true"
+      currentPageReportTemplate="Mostrando elementos {first} hasta {last} de {totalRecords} entradas totales"
+      [showCurrentPageReport]="true"
+      [globalFilterFields]="['rol_id']"
+      [style]="{ 'font-size': '12px' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="rol_id">
+            CI-RUC
+            <div class="flex justify-content-center align-items-center"></div>
+          </th>
+          <th>
+            Descripción
+            <div class="flex justify-content-center align-items-center"></div>
+          </th>
+          <th>Apellidos</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Correo Electrónico</th>
+          <th>Opciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-varClients>
+        <tr>
+          <td>{{ varClients.ci_ruc }}</td>
+          <td>{{ varClients.nombres }}</td>
+          <td>{{ varClients.apellidos }}</td>
+          <td>{{ varClients.direccion }}</td>
+          <td>{{ varClients.telefono }}</td>
+          <td>{{ varClients.email }}</td>
+          <td>
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#editClientModal"
+              (click)="getDataCitByIdPersona(varClients.id_persona)"
+            >
+              Editar
+            </button>
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="deleteClient(varClients.id_cliente)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="modal" id="editClientModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="formClientedit">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Cliente</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <label for="a">Cedula o RUC</label><br />
+          <input
+            type="text"
+            formControlName="ci_ruc"
+            placeholder="Ingrese el número de cédula o RUC"
+            class="form-control"
+          />
+
+          <label for="a">Nombres</label><br />
+
+          <input
+            type="text"
+            formControlName="nombres"
+            placeholder="Ingrese el número de cédula o RUC"
+            class="form-control"
+          />
+          <label for="a">Apellidos</label><br />
+
+          <input
+            type="text"
+            formControlName="apellidos"
+            placeholder="Ingrese el número de cédula o RUC"
+            class="form-control"
+          />
+          <label for="a">Dirección</label><br />
+
+          <input
+            type="text"
+            formControlName="direccion"
+            placeholder="Ingrese el número de cédula o RUC"
+            class="form-control"
+          />
+          <label for="a">Teléfono</label><br />
+
+          <input
+            type="text"
+            formControlName="telefono"
+            placeholder="Ingrese el número de cédula o RUC"
+            class="form-control"
+          />
+          <label for="a">Correo Electrónico</label><br />
+          <input
+            type="text"
+            formControlName="email"
+            placeholder="Ingrese el número de cédula o RUC"
+            class="form-control"
+          />
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            data-bs-dismiss="modal"
+            (click)="updateClient(formClientedit.value)"
+          >
+            Actualizar Cliente
+          </button>
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="createClientModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="formClient">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Crear Cliente</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <label for="ci_ruc">Cédula o RUC *:</label>
+
+          <input
+            type="text"
+            formControlName="ci_ruc"
+            (keyup)="filtrarClientsExist($event)"
+            placeholder="Ingrese su cédula o RUC"
+            class="form-control"
+          />
+
+          <label for="nombres">Nombres *:</label>
+          <input
+            type="text"
+            formControlName="nombres"
+            placeholder="Ingrese los nombres"
+            class="form-control"
+          />
+
+          <label for="apellidos">Apellidos *:</label>
+          <input
+            type="text"
+            formControlName="apellidos"
+            placeholder="Ingrese los apellidos"
+            class="form-control"
+          />
+          <label for="telefono">Teléfono:</label>
+
+          <input
+            type="text"
+            formControlName="telefono"
+            placeholder="Ingrese el número de teléfono"
+            class="form-control"
+          />
+
+          <label for="email">Correo Electrónico:</label>
+
+          <input
+            type="text"
+            formControlName="email"
+            placeholder="Ingrese el correo electrónico"
+            class="form-control"
+          />
+
+          <label for="direccion">Dirección:</label>
+          <input
+            type="text"
+            formControlName="direccion"
+            placeholder="Ingrese la dirección"
+            class="form-control"
+          />
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            data-bs-dismiss="modal"
+            (click)="createClient(formClient.value)"
+          >
+            Crear Cliente
+          </button>
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

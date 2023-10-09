@@ -1,0 +1,661 @@
+<button [routerLink]="['../sales']" class="btn btn-danger">
+  <i class="fas fa-arrow-left"></i> Regresar
+</button>
+
+<div class="container">
+  <!-- Primera fila -->
+  <form [formGroup]="formSale">
+    <div class="row m-3 border">
+      <div class="col-md-6">
+        <div class="row p-1">
+          <label for="">Serie *</label>
+        </div>
+        <div class="row p-1">
+          <input
+            type="text"
+            name="codigo"
+            id="codigo"
+            formControlName="serie"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row p-1">
+          <label for="">Secuencia *</label>
+        </div>
+        <div class="row p-1">
+          <input
+            type="text"
+            name="nombre"
+            id="nombre"
+            formControlName="secuencia"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row p-1">
+          <label for="">Fecha de emisión *</label>
+        </div>
+        <div class="row p-1">
+          <input
+            type="date"
+            name="fecha_emision"
+            id="fecha_emision"
+            value="{{ currentDate }}"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <p-dropdown
+          [options]="listTypesDocuments"
+          [(ngModel)]="selectedTypeDocument"
+          optionLabel="descripcion"
+          optionValue="descripcion"
+          formControlName="tipo_documento"
+          placeholder="Seleccione el tipo de documento"
+          (input)="onCategorySearch($event)"
+        ></p-dropdown>
+      </div>
+      <div class="col-md-6">
+        <p-dropdown
+          [options]="listTypesPayments"
+          [(ngModel)]="selectedTypePayment"
+          optionLabel="descripcion"
+          optionValue="descripcion"
+          formControlName="tipo_pago"
+          placeholder="Seleccione el tipo de pago"
+          (input)="onCategorySearch($event)"
+        ></p-dropdown>
+      </div>
+      <div class="col-md-6">
+        <div class="row p-1">
+          <label for="">Cliente *</label>
+        </div>
+        <div class="row p-1">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar por cédula o nombres"
+            (input)="getClientByQuery($event)"
+          />
+          <div class="form-group">
+            <div *ngIf="listClients.length > 0" class="suggestion-list">
+              <div
+                *ngFor="let client of listClients"
+                class="suggestion"
+                (click)="selectSuggestion(client)"
+              >
+                {{ client.nombres + " " + client.apellidos }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row p-1">
+          {{ client.nombres + " " + client.apellidos }}
+        </div>
+        <div class="col-md-3">
+          <button
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#modalClient"
+            class="btn btn-dark"
+          >
+            <i class="bx bx-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row p-1">
+      <div class="col-md-6">
+        <div class="row p-1">
+          <label for="">Total</label>
+          <input type="text" name="total" id="total" />
+        </div>
+      </div>
+      <div class="col-md-6 text-center">
+        <button
+          type="button"
+          class="btn btn-dark btn-lg"
+          (click)="registerSale(formSale.value)"
+        >
+          <i class="bx bx-save"></i> Guardar
+        </button>
+      </div>
+    </div> -->
+    <!-- Segunda fila -->
+    <div class="row">
+      <!-- primer columna -->
+      <div class="col-md-6 p-2">
+        <div class="row">
+          <div class="col-md-9">
+            <input
+              type="search"
+              (keyup)="filterProducts($event)"
+              placeholder="Buscar producto"
+            />
+          </div>
+          <div class="col-md-3">
+            <button
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#modalProduct"
+              class="btn btn-dark"
+            >
+              <i class="bx bx-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Primera Tabla -->
+          <div class="container">
+            <div class="col-md-12">
+              <p-table
+                #dt
+                [rows]="2"
+                [value]="listProducts"
+                [paginator]="true"
+                responsiveLayout="scroll"
+                [rowHover]="true"
+                currentPageReportTemplate="{first} - {last} de {totalRecords}"
+                [showCurrentPageReport]="true"
+                [globalFilterFields]="['rol_id']"
+                [style]="{ 'font-size': '12px' }"
+              >
+                <ng-template pTemplate="caption">
+                  <div
+                    class="flex align-items-center justify-content-between"
+                  ></div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="id_producto">
+                      Id<p-sortIcon field="id_producto"></p-sortIcon>
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Nombre
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+
+                    <th>
+                      Stock
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Opciones
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-varProducts>
+                  <tr>
+                    <td>{{ varProducts.id_producto }}</td>
+                    <td>{{ varProducts.nombre }}</td>
+                    <td>{{ varProducts.stock }}</td>
+                    <td>
+                      <button
+                        class="btn btn-dark"
+                        (click)="selectProduct(varProducts)"
+                      >
+                        Seleccionar
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  <div
+                    class="flex align-items-center justify-content-between"
+                  ></div>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+        <div class="container m-1 border">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row p-1">
+                <label for="" class="" style="font-weight: 900"
+                  >Stock:
+                  <small style="font-weight: 100"
+                    >{{
+                      productSelected.stock +
+                        " (" +
+                        productSelected.abreviatura +
+                        ")"
+                    }}
+                    disponibles</small
+                  >
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row p-1">
+                <label for="" class="" style="font-weight: 900"
+                  >Código:
+                  <small style="font-weight: 100">{{
+                    productSelected.codigo
+                  }}</small>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row p-1">
+                <label class="" for="" style="font-weight: 900">
+                  Nombre:
+                  <small style="font-weight: 100">{{
+                    productSelected.nombre
+                  }}</small>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row p-1">
+                <div class="col-md-2"><label for="">Precio</label></div>
+                <div class="col-md-8">
+                  <p-dropdown
+                    [options]="productSelected.precios"
+                    optionLabel="nombre"
+                    optionValue="valor"
+                    (onChange)="selectPrice($event)"
+                    [style]="{
+                      width: '150px',
+                      'background-color': '#ffffff',
+                      transform: 'scale(0.8)',
+                      'z-index': 1
+                    }"
+                  ></p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row p-1">
+                <div class="col-md-3"><label for="">Cantidad</label></div>
+                <div class="col-md-9">
+                  <input
+                    type="number"
+                    name="cantidad"
+                    id="cantidad"
+                    placeholder="Cantidad"
+                    style="width: 100px"
+                    [formControl]="cantidadControl"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <button
+              type="button"
+              class="btn btn-dark btn-lg"
+              (click)="addProduct()"
+            >
+              <i class="bx bx-save"></i> Agregar Producto
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- segunda columna -->
+
+      <div class="col-md-6 p-1" style="background-color: rgb(255, 255, 255)">
+        <div class="row">
+          <!-- Segunda Tabla -->
+          <div class="container">
+            <div class="col-md-12">
+              <p-table
+                #dt
+                [rows]="20"
+                [value]="listSaleDetailsDTO"
+                responsiveLayout="scroll"
+                [rowHover]="true"
+                [showCurrentPageReport]="true"
+                [globalFilterFields]="['rol_id']"
+                [style]="{ 'font-size': '12px' }"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="id_producto">
+                      Id
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Código
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Nombre
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Cantidad
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Precio
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Total
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                    <th>
+                      Opciones
+                      <div
+                        class="flex justify-content-center align-items-center"
+                      ></div>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-varProducts let-i="rowIndex">
+                  <tr>
+                    <td>{{ varProducts.id_producto }}</td>
+                    <td>{{ varProducts.codigo }}</td>
+                    <td>{{ varProducts.nombre }}</td>
+                    <td>{{ varProducts.cantidad }}</td>
+                    <td>{{ varProducts.precio_unitario }}</td>
+                    <td>{{ varProducts.precio_total }}</td>
+                    <td>
+                      <button (click)="removeProduct(i)">
+                        <i class="fas fa-trash"></i> Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  <div
+                    class="flex align-items-center justify-content-between"
+                  ></div>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7"></div>
+          <div class="col-md-5">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Subtotal:</label>
+              </div>
+              <div class="col-md-6">
+                <label for="">${{ formSale.controls.subtotal.value }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Iva:</label>
+              </div>
+              <div class="col-md-6">
+                <p-dropdown
+                  [options]="listTaxes"
+                  optionLabel="valor"
+                  optionValue="valor"
+                  formControlName="iva"
+                  (onChange)="onChangeIva($event)"
+                  [style]="{
+                    width: '80px',
+                    'background-color': '#ffffff',
+                    transform: 'scale(0.8)',
+                    'z-index': 1
+                  }"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Iva {{ auxIva }}%:</label>
+              </div>
+              <div class="col-md-6">
+                <label for="">{{ auxValorIva }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="">Total:</label>
+              </div>
+              <div class="col-md-6">
+                <label for=""> {{ formSale.controls.total.value }}</label>
+              </div>
+            </div>
+            <div class="row p-3">
+              <button
+                type="button"
+                class="btn btn-dark btn-lg"
+                (click)="registerSale(formSale.value)"
+              >
+                <i class="bx bx-save"></i> Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal" id="modalClient">
+  <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="formClient">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Registrar Cliente</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="contenedor-principal">
+            <div class="elemento">
+              <label for="ci_ruc">Cédula o RUC:</label>
+              <input
+                type="text"
+                formControlName="ci_ruc"
+                (keyup)="filtrarClientsExist($event)"
+                placeholder="Ingrese su cédula o RUC"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="elemento">
+            <label for="nombres">Nombres:</label>
+            <input
+              type="text"
+              formControlName="nombres"
+              placeholder="Ingrese los nombres"
+              class="form-control"
+            />
+          </div>
+          <div class="elemento">
+            <label for="apellidos">Apellidos:</label
+            ><input
+              type="text"
+              formControlName="apellidos"
+              placeholder="Ingrese los apellidos"
+              class="form-control"
+            />
+          </div>
+          <div class="elemento">
+            <label for="telefono">Teléfono:</label>
+            <input
+              type="text"
+              formControlName="telefono"
+              placeholder="Ingrese el número de teléfono"
+              class="form-control"
+            />
+          </div>
+          <div class="elemento">
+            <label for="email">Correo Electrónico:</label>
+            <input
+              type="text"
+              formControlName="email"
+              placeholder="Ingrese el correo electrónico"
+              class="form-control"
+            />
+          </div>
+          <div class="elemento">
+            <label for="direccion">Dirección:</label>
+            <input
+              type="text"
+              formControlName="direccion"
+              placeholder="Ingrese la dirección"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            data-bs-dismiss="modal"
+            (click)="registerClient(formClient.value)"
+          >
+            Registrar Cliente
+          </button>
+
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="modalProduct">
+  <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="formProduct">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Producto</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="contenedor-principal">
+            <div class="columna-izquierda">
+              <p-dropdown
+                [options]="listCategories"
+                [(ngModel)]="selectedCategory"
+                optionLabel="descripcion"
+                optionValue="id_categoria"
+                formControlName="id_categoria"
+                placeholder="Seleccione una categoría"
+                [filter]="true"
+                (input)="onCategorySearch($event)"
+              ></p-dropdown>
+            </div>
+            <div class="elemento">
+              <label for="nombre">Nombre:</label>
+              <input
+                type="text"
+                formControlName="nombre"
+                placeholder="Ingrese el nombre del producto"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="elemento">
+            <label for="codigo">Código:</label>
+            <input
+              type="text"
+              formControlName="codigo"
+              (keyup)="filterProducts($event)"
+              placeholder="Ingrese el código del producto"
+              class="form-control"
+            />
+          </div>
+          <div class="elemento">
+            <label for="barras">Código de Barras:</label>
+            <input
+              type="text"
+              formControlName="barras"
+              placeholder="Ingrese el código de barras"
+              class="form-control"
+            />
+          </div>
+          <div class="elemento">
+            <label for="descripcion">Descripción:</label>
+            <input
+              type="text"
+              formControlName="descripcion"
+              placeholder="Ingrese la descripción del producto"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            data-bs-dismiss="modal"
+            (click)="registerProduct(formProduct.value)"
+          >
+            Registrar Producto
+          </button>
+
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div class="row">
+      <div class="col-md-4">
+        <p-dropdown
+          [options]="listProducts"
+          [(ngModel)]="selectedCity"
+          optionLabel="nombre"
+          optionValue="id_producto"
+          placeholder="Seleccionar el producto"
+          [filter]="true"
+          (input)="onProductEvent($event)"
+        ></p-dropdown>
+      </div>
+    </div> -->

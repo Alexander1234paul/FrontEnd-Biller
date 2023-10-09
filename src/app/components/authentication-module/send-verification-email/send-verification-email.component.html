@@ -1,0 +1,37 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <br />
+        <br />
+        <div class="fadeIn first">
+            <img src="assets/ax.png" id="icon" alt="User Icon" />
+        </div>
+        <br />
+        <div class="decoration">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <br />
+        <h2>Verifique su correo electrónico</h2>
+        <div>
+            Hemos enviado un correo electrónico a <b>{{email}}</b> con un enlace de verificación de su correo.
+        </div>
+        <div>
+            <div>¿El correo electrónico no llegó?</div>
+            <div><a href="">Corregir correo electrónico ingresado</a></div>
+        </div>
+        <div>
+            Si no recibe un correo electrónico en los próximos minutos, revise su carpeta de spam
+        </div>
+        <div>
+            <div>¿No recibió el correo electrónico de verificación?</div>
+            <div>Espere <b>{{minutes | number: '2.0'}}:{{seconds | number: '2.0'}}</b> minutos para reenviar el correo electrónico de verificación</div>
+            <button class="fadeIn fourth" (click)="resendMail()" [disabled]="status">Reenviar Email</button>
+        </div>
+    </div>
+</div>

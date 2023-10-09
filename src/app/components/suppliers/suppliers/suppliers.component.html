@@ -1,0 +1,62 @@
+<form [formGroup]="formSupplier">
+  <div class="contenedor-principal">
+    <div class="columna-izquierda">
+      <div class="elemento">
+        <label for="ci_ruc">RUC:</label>
+        <input
+          type="text"
+          formControlName="ruc"
+          (keyup)="filtrarClientsExist($event)"
+          placeholder="Ingrese el RUC"
+          class="form-control"
+        />
+      </div>
+      <div class="elemento">
+        <label for="nombres">Razon social (Nombre de la empresa):</label>
+        <input
+          type="text"
+          formControlName="razon_social"
+          placeholder="Ingrese los nombres"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="columna-derecha">
+      <div class="elemento">
+        <label for="telefono">Teléfono:</label>
+        <input
+          type="text"
+          formControlName="telefono"
+          placeholder="Ingrese el número de teléfono"
+          class="form-control"
+        />
+      </div>
+      <div class="elemento">
+        <label for="email">Correo Electrónico:</label>
+        <input
+          type="text"
+          formControlName="email"
+          placeholder="Ingrese el correo electrónico"
+          class="form-control"
+        />
+      </div>
+      <div class="elemento">
+        <label for="direccion">Dirección:</label>
+        <input
+          type="text"
+          formControlName="direccion"
+          placeholder="Ingrese la dirección"
+          class="form-control"
+        />
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-dismiss="modal"
+        (click)="createSupplier(formSupplier.value)"
+      >
+        Crear Proveedor
+      </button>
+    </div>
+  </div>
+</form>

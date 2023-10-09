@@ -1,0 +1,53 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <br />
+        <br />
+        <div class="fadeIn first">
+            <img src="assets/ax.png" id="icon" alt="User Icon" />
+            <div>{{username}}</div>
+        </div>
+        <br />
+        <div class="decoration">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <br />
+        <h2>Registro Empresa Principal</h2>
+        <div>
+            Por favor registre los datos de su empresa para continuar al menú principal y disfrutar de las
+            funcionalidades
+        </div>
+        <h4>Datos Empresa</h4>
+        <form [formGroup]="formCompany">
+            <label for="ruc">RUC *</label>
+            <input type="text" formControlName="ruc" placeholder="Ingrese el ruc" />
+            <label for="razon">Razón Social *</label>
+            <input type="text" formControlName="razon" placeholder="Ingrese la razón social" />
+            <label for="eslogan">Eslogan</label>
+            <input type="text" formControlName="eslogan" placeholder="Ingrese el eslogan" />
+            <label for="direccion">Dirección</label>
+            <input type="text" formControlName="direccion" placeholder="Ingrese la dirección de la empresa" />
+            <label for="email">Email</label>
+            <input type="text" formControlName="email" placeholder="Ingrese el correo de la empresa" />
+            <label for="telefono">Teléfono</label>
+            <input type="text" formControlName="telefono" placeholder="Ingrese el teléfono de la empresa" />
+            <label for="logo">Logo</label>
+            <input type="text" formGroupName="logo" placeholder="url imagen">
+            <!-- <input type="file" formControlName="logo" placeholder="Arrastre y suelte la imagen aqui" /> -->
+        </form>
+        <div class="container__resp" *ngIf="estado">
+            <h4>{{ resp }}</h4>
+        </div>
+        <div>
+            <button class="fadeIn fourth" (click)="registerCompany(formCompany.value)">Guardar</button>
+            <!-- <input type="button" class="fadeIn fourth" (click)="registerCompany" value="Reenviar Email" /> -->
+            <a class="underlineHover" routerLink="../home">Saltar</a>
+        </div>
+    </div>
+</div>

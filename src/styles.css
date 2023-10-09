@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mahajani&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Roboto', sans-serif; */
+    /* font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; */
+    text-decoration: none;
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+    /* background: #F6F5FA; */
+    overflow-x: hidden;
+    /* background: #700; */
+}
+
+:root {
+    --light: #f6f6f9;
+    --primary: #1976D2;
+    --light-primary: #CFE8FF;
+    --grey: #eee;
+    --dark-grey: #AAAAAA;
+    --dark: #363949;
+    --danger: #D32F2F;
+	--light-danger: #FECDD3;
+    --warning: #FBC02D;
+    --light-warning: #FFF2C6;
+    --success: #388E3C;
+    --light-success: #BBF7D0;
+}
+
+body.dark{
+    --light: #181a1e;
+    --grey: #25252c;
+    --dark: #fbfbfb
+}
+
+body{
+    background: var(--grey);
+}

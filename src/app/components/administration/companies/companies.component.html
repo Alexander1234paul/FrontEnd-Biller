@@ -1,0 +1,39 @@
+<app-navhead></app-navhead>
+<div>
+    <span></span>
+    <h4>Nueva Empresa</h4>
+    <p>Agregue una nueva empresa</p>
+</div>
+<div>
+    <div>
+        <label for="">Buscar Empresa</label>
+        <input type="text" placeholder="Buscar una empresa">
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Razón Social</th>
+                <th>Email</th>
+                <th>CI/RUC</th>
+                <th>Eslogan</th>
+                <th>Telefono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let empresa of empresas">
+                <td>{{ empresa.razon }}</td>
+                <td>{{ empresa.email }}</td>
+                <td>{{ empresa.ruc }}</td>
+                <td>{{ empresa.eslogan }}</td>
+                <td>{{ empresa.telefono }}</td>
+                <td>
+                    <a href="">Ver Detalles</a>
+                    <a href="">Editar</a>
+                    <a href="">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

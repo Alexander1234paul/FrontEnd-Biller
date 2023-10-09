@@ -1,0 +1,94 @@
+<button [routerLink]="['../register-sale']" class="btn btn-primary">
+  Nueva Venta
+</button>
+<br />
+<br />
+
+<input
+  type="text"
+  class="form-control bg-light small"
+  placeholder="Buscar..."
+  aria-label="Search"
+  (keyup)="filterSales($event)"
+  aria-describedby="basic-addon2"
+/>
+<br />
+<br />
+
+<div class="container">
+  <div class="col-md-12">
+    <p-table
+      #dt
+      [rows]="5"
+      [value]="listSales"
+      [paginator]="true"
+      responsiveLayout="scroll"
+      [rowHover]="true"
+      currentPageReportTemplate="{first} - {last} de {totalRecords}"
+      [showCurrentPageReport]="true"
+      [globalFilterFields]="['id_producto']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between"></div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id_producto">
+            Id<p-sortIcon field="id_producto"></p-sortIcon>
+            <div class="flex justify-content-center align-items-center">
+              <p-columnFilter
+                type="text"
+                field="id_producto"
+                display="Id"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th>Categoría</th>
+          <th>Codigo</th>
+          <th>
+            Nombre
+            <div class="flex justify-content-center align-items-center">
+              <p-columnFilter
+                type="text"
+                field="nombre"
+                display="Nombre"
+              ></p-columnFilter>
+            </div>
+          </th>
+          <th>Stock</th>
+          <th>Precio 1</th>
+          <th>Precio 2</th>
+          <th>Precio 3</th>
+          <th>Opciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-products>
+        <tr>
+          <td>{{ products.id_producto }}</td>
+          <td>{{ products.descripcion }}</td>
+          <td>{{ products.codigo }}</td>
+          <td>{{ products.nombre }}</td>
+          <td>{{ products.stock }}</td>
+          <td>{{ products.precio_1 }}</td>
+          <td>{{ products.precio_2 }}</td>
+          <td>{{ products.precio_3 }}</td>
+          <td>
+            <button class="btn btn-primary">Editar</button>
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="deleteSale(products.id_producto)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between"></div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

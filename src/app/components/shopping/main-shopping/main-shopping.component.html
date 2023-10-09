@@ -1,0 +1,145 @@
+<button [routerLink]="['../Shopping']" class="btn btn-primary">
+  Nuevo Compra
+</button>
+
+<router-outlet></router-outlet>
+<br />
+<input type="search" name="" id="" placeholder="Buscar" />
+
+<div class="row">
+  <div class="container">
+    <div class="col-md-12">
+      <p-table
+        #dt
+        [rows]="5"
+        [value]="listShops"
+        [paginator]="true"
+        responsiveLayout="scroll"
+        [rowHover]="true"
+        currentPageReportTemplate="Mostrando elementos {first} hasta {last} de {totalRecords} entradas totales"
+        [showCurrentPageReport]="true"
+        [globalFilterFields]="['rol_id']"
+        [style]="{ 'font-size': '12px' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="id_producto">
+              Número de factura
+              <div class="flex justify-content-center align-items-center"></div>
+            </th>
+            <th>
+              Fecha
+              <div class="flex justify-content-center align-items-center"></div>
+            </th>
+            <th>
+              Total
+              <div class="flex justify-content-center align-items-center"></div>
+            </th>
+
+            <th>
+              Acciones
+              <div class="flex justify-content-center align-items-center"></div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-varShop>
+          <tr>
+            <td>{{ varShop.num_factura }}</td>
+            <td>{{ varShop.fecha | date : "dd/MM/yyyy" }}</td>
+
+            <td>{{ varShop.total }}</td>
+            <td>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#myModal"
+                (click)="getDetailShop(varShop.id_compra)"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+              <button>
+                <i class="fas fa-edit"></i>
+              </button>
+              <button>
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between"></div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Compra</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div *ngIf="compra">
+          <ul>
+            <li><strong>ID:</strong> {{ compra.id_compra }}</li>
+            <li>
+              <strong>Número de Factura:</strong> {{ compra.num_factura }}
+            </li>
+            <li>
+              <strong>Fecha de Emisión:</strong>
+              {{ compra.fecha | date : "dd/MM/yyyy" }}
+            </li>
+            <li><strong>Proveedor:</strong> {{ compra.razon }}</li>
+          </ul>
+
+          <h3>Detalle:</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detalle of compra?.detalles">
+                <td>{{ detalle?.nombre }}</td>
+                <td>{{ detalle?.cantidad }}</td>
+                <td>{{ detalle?.precioUnitario }}</td>
+                <td>{{ detalle?.sub_total }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ul>
+            <div class="row">
+              <div class="col-md-6"></div>
+              <div class="col-md-6">
+                <li><strong>Subtotal:</strong> ${{ compra.sub_total }}</li>
+                <li><strong>Descuento:</strong> ${{ compra.descuento }}</li>
+                <li><strong>Iva:</strong> {{ compra.iva }}%</li>
+                <li><strong>Total:</strong> {{ compra.total }}</li>
+              </div>
+            </div>
+          </ul>
+        </div>
+
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
